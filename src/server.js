@@ -3,6 +3,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import getEnvVar from './utils/getEnvVar.js';
 import dotenv from 'dotenv';
+import authRoutes from './api/auth/auth.routes.js';
 
 dotenv.config();
 
@@ -19,19 +20,24 @@ export function startServer() {
     next();
   });
 
+  app.get('/', (req, res) => {
+    res.json({ message: 'Get method performed' });
+  });
+
+  // Auth routes
+  app.use('/api/auth', authRoutes);
+
+  // 404 handler
+  app.use((req, res) => {
+    res.status(404).json({ message: 'Path not found' });
+  });
+
+  // Error handler (must be last)
   app.use((err, req, res, next) => {
     res.status(500).json({
       message: 'Something went wrong',
       error: err.message,
     });
-  });
-
-  app.get('/', (req, res) => {
-    res.json({ message: 'Get method performed' });
-  });
-
-  app.use('{/*any}', (req, res, next) => {
-    res.status(404).json({ message: 'Path not found' });
   });
 
   app.listen(PORT, () => {

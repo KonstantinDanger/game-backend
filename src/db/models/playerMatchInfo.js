@@ -33,7 +33,7 @@ const playerMatchInfoSchema = new Schema(
   },
 );
 
-export const PlayerMatchInfoCollection = model(
-  'playerMatchInfo',
+export const PlayerMatchInfoModel = model(
+  'PlayerMatchInfo',
   playerMatchInfoSchema,
 );

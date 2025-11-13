@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const playerClassesSchema = new Schema(
+const playerClassSchema = new Schema(
   {
     name: {
       type: String,
@@ -13,7 +13,4 @@ const playerClassesSchema = new Schema(
   },
 );
 
-export const PlayerClassesCollection = model(
-  'playerClasses',
-  playerClassesSchema,
-);
+export const PlayerClassModel = model('PlayerClass', playerClassSchema);

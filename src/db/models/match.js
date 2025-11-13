@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const matchesSchema = new Schema(
+const matchSchema = new Schema(
   {
     // playerId[]?
     // playerId winner?
@@ -25,4 +25,4 @@ const matchesSchema = new Schema(
   },
 );
 
-export const MatchesCollection = model('matches', matchesSchema);
+export const MatchModel = model('Match', matchSchema);

@@ -1,21 +1,21 @@
 import { model, Schema } from 'mongoose';
 
-const bossesSchema = new Schema(
+const playerSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    health: {
-      type: Number,
+    email: {
+      type: String,
       required: true,
     },
-    xp: {
-      type: Number,
+    passwordHash: {
+      type: String,
       required: true,
     },
-    damage: {
-      type: Number,
+    passwordSalt: {
+      type: String,
       required: true,
     },
   },
@@ -25,4 +25,4 @@ const bossesSchema = new Schema(
   },
 );
 
-export const bossesCollection = model('bosses', bossesSchema);
+export const PlayerModel = model('Player', playerSchema);
