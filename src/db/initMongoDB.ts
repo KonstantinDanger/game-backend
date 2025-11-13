@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import getEnvVar from '../utils/getEnvVar.js';
 
-export default async function initMongoDB() {
+export default async function initMongoDB(): Promise<void> {
   try {
     const user = getEnvVar('MONGODB_USER');
     const pwd = getEnvVar('MONGODB_PASSWORD');
@@ -18,3 +18,4 @@ export default async function initMongoDB() {
     throw e;
   }
 }
+

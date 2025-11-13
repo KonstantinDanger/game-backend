@@ -1,8 +1,17 @@
+import { NextFunction, Response } from 'express';
 import { SessionModel } from '../../db/models/session.js';
+import { AuthRequest } from './types.js';
 
-export async function authorize(req, res, next) {
+export async function authorize(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) {
   try {
-    const authHeader = req.header('Authorization') || '';
+    const authHeader =
+      (req as any).headers?.authorization ||
+      (req as any).headers?.Authorization ||
+      '';
     const token = authHeader.replace('Bearer ', '');
 
     if (!token) {
@@ -21,4 +30,3 @@ export async function authorize(req, res, next) {
     next(err);
   }
 }
-

@@ -1,4 +1,7 @@
-export default function getEnvVar(name, defaultValue) {
+export default function getEnvVar(
+  name: string,
+  defaultValue?: string,
+): string {
   const value = process.env[name];
 
   if (value) return value;
@@ -7,3 +10,4 @@ export default function getEnvVar(name, defaultValue) {
 
   throw new Error(`Missing: process.env['${name}'].`);
 }
+
