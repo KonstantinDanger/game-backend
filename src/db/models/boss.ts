@@ -1,6 +1,13 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
 
-const bossesSchema = new Schema(
+export interface IBossDocument extends Document {
+  name: string;
+  health: number;
+  xp: number;
+  damage: number;
+}
+
+const bossSchema = new Schema<IBossDocument>(
   {
     name: {
       type: String,
@@ -25,4 +32,5 @@ const bossesSchema = new Schema(
   },
 );
 
-export const bossesCollection = model('bosses', bossesSchema);
+export const BossModel = model<IBossDocument>('Boss', bossSchema);
+

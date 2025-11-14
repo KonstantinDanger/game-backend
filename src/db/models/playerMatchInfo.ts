@@ -1,11 +1,15 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
-const playerMatchInfoSchema = new Schema(
+export interface IPlayerMatchInfoDocument extends Document {
+  dealtDamage: number;
+  reachedLevel: number;
+  totalXpReceived: number;
+  deathsCount: number;
+  currencyReceived: number;
+}
+
+const playerMatchInfoSchema = new Schema<IPlayerMatchInfoDocument>(
   {
-    // playerId?
-    // usedClassId?
-    // slainBossesId[]?
-
     dealtDamage: {
       type: Number,
       required: true,
@@ -33,7 +37,8 @@ const playerMatchInfoSchema = new Schema(
   },
 );
 
-export const PlayerMatchInfoCollection = model(
-  'playerMatchInfo',
+export const PlayerMatchInfoModel = model<IPlayerMatchInfoDocument>(
+  'PlayerMatchInfo',
   playerMatchInfoSchema,
 );
+
