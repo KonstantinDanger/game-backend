@@ -1,0 +1,82 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Kostya\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js global bin
+
+PATH: 
+  C:\Users\Kostya\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Kostya\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Common Files\Acronis\SnapAPI;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\dotnet;C:\Program Files\Common Files\Autodesk Shared;D:\MatLab\runtime\win64;D:\MatLab\bin;D:\MatLab\polyspace\bin;D:\Programs\MatLab\runtime\win64;D:\Programs\MatLab\bin;D:\Programs\MatLab\polyspace\bin;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Users\Kostya\AppData\Local\Programs\cursor\resources\app\bin;C:\Program Files\nodejs;C:\Program Files\cursor\resources\app\bin;C:\Users\Kostya\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\Kostya\AppData\Local\Programs\Python\Python311;C:\Users\Kostya\AppData\Local\Microsoft\WindowsApps;C:\Users\Kostya\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Kostya\.dotnet\tools;C:\Users\Kostya\AppData\Local\Programs\Microsoft VS Code;C:\Users\Kostya\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  22.20.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\Kostya\game-backend\package.json: Expected property name or '}' in JSON at position 107 (line 7 column 1)
+      at JSON.parse (<anonymous>)
+      at C:\Users\Kostya\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\Kostya\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\Kostya\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "back-end",
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "type": "module",
+    "scripts": {
+  <<<<<<< HEAD
+      "start": "tsx src/index.ts",
+      "dev": "tsx watch src/index.ts",
+      "lint": "eslint src/**/*.ts",
+      "type-check": "tsc --noEmit"
+  =======
+      "lint": "eslint src/**/*.js",
+      "build:frontend": "cd ../game-site && npm run build",
+      "start": "node ./src/index.js",
+      "start:full": "npm run build:frontend && npm start",
+      "dev": "nodemon src/index.js"
+  >>>>>>> ad89933 (Deployment config)
+    },
+    "keywords": [],
+    "author": "Kostiantyn <kostyashka2003@gmail.com>",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+      "@eslint/js": "^9.37.0",
+      "@types/bcrypt": "^5.0.2",
+      "@types/cors": "^2.8.17",
+      "@types/express": "^5.0.0",
+      "@types/node": "^22.10.2",
+      "eslint": "^9.37.0",
+      "globals": "^16.4.0",
+  <<<<<<< HEAD
+      "pino-pretty": "^13.1.2",
+      "tsx": "^4.19.2",
+      "typescript": "^5.7.2",
+      "typescript-eslint": "^8.18.1"
+  =======
+      "http-proxy-middleware": "^3.0.3",
+      "nodemon": "^3.1.10",
+      "pino-pretty": "^13.1.2"
+  >>>>>>> ad89933 (Deployment config)
+    },
+    "dependencies": {
+      "bcrypt": "^6.0.0",
+      "cors": "^2.8.5",
+      "dotenv": "^17.2.3",
+      "express": "^5.1.0",
+      "mongodb": "^6.20.0",
+      "mongoose": "^8.19.2",
+      "pino-http": "^11.0.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

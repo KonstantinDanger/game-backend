@@ -1,0 +1,86 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+  FRONTEND_REPO: ${{ secrets.FRONTEND_REPO }} # например: owner/game-site
+  FRONTEND_BRANCH: ${{ secrets.FRONTEND_BRANCH || 'main' }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout backend repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Checkout frontend repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.FRONTEND_REPO }}
+          ref: ${{ env.FRONTEND_BRANCH }}
+          path: frontend
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js for frontend
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Copy frontend dist to backend
+        run: |
+          mkdir -p public
+          cp -r frontend/dist/* public/
+
+      - name: Set environment variables
+        run: |
+          echo "FRONTEND_DIST_PATH=$(pwd)/public" >> $GITHUB_ENV
+          echo "NODE_ENV=production" >> $GITHUB_ENV
+
+      # Здесь добавьте шаги для деплоя на ваш сервер
+      # Например, для деплоя через SSH:
+      # - name: Deploy to server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.SSH_KEY }}
+      #     script: |
+      #       cd /path/to/app
+      #       git pull
+      #       npm ci --production
+      #       pm2 restart app
+
+      # Или для деплоя в Docker:
+      # - name: Build Docker image
+      #   run: docker build -t your-app:${{ github.sha }} .
+      # 
+      # - name: Push to registry
+      #   run: docker push your-app:${{ github.sha }}
+
+

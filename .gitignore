@@ -6,3 +6,6 @@
 .vscode
 .DS_Store
 .idea
+
+# Папка с собранным фронтендом (создается в CI/CD)
+/public
