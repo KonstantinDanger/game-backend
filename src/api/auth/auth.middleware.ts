@@ -1,30 +1,26 @@
-import { NextFunction, Response } from 'express';
-import { SessionModel } from '../../db/models/session.js';
-import { AuthRequest } from './types.js';
+import type { NextFunction, Response, Request } from 'express';
+import createHttpError from 'http-errors';
+
+import { SessionModel } from '@/db/models/session.js';
 
 export async function authorize(
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const authHeader =
-      (req as any).headers?.authorization ||
-      (req as any).headers?.Authorization ||
-      '';
-    const token = authHeader.replace('Bearer ', '');
+    const sessionId = req.cookies.sessionId;
+    const refreshToken = req.cookies.refreshToken;
 
-    if (!token) {
-      throw new Error('Auth token not provided');
-    }
+    const session = await SessionModel.findOne({
+      _id: sessionId,
+      refreshToken,
+    });
 
-    const session = await SessionModel.findSessionByToken(token);
     if (!session) {
-      throw new Error('Auth token is not valid');
+      throw createHttpError(401, 'Unauthorized');
     }
 
-    req.user = session.user;
-    req.token = session.token;
     next();
   } catch (err) {
     next(err);

@@ -1,10 +1,12 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, type Document } from 'mongoose';
 
 export interface IPlayerDocument extends Document {
   name: string;
   email: string;
   passwordHash: string;
   passwordSalt: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const playerSchema = new Schema<IPlayerDocument>(
@@ -33,4 +35,3 @@ const playerSchema = new Schema<IPlayerDocument>(
 );
 
 export const PlayerModel = model<IPlayerDocument>('Player', playerSchema);
-

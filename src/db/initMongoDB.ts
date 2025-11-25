@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import getEnvVar from '../utils/getEnvVar.js';
+import getEnvVar from '@/utils/getEnvVar.js';
 
 export default async function initMongoDB(): Promise<void> {
   try {
@@ -18,4 +18,3 @@ export default async function initMongoDB(): Promise<void> {
     throw e;
   }
 }
-

@@ -1,19 +1,19 @@
 import express from 'express';
 import { authorize } from './auth.middleware.js';
-import { registerHandler } from './handlers/register.js';
-import { loginHandler } from './handlers/login.js';
-import { logoutHandler } from './handlers/logout.js';
-import { meHandler } from './handlers/me.js';
-import { updatePlayerHandler } from './handlers/updatePlayer.js';
-import { refreshTokenHandler } from './handlers/refreshToken.js';
+import { registerController } from './controllers/register.controller.js';
+import { loginUserController } from './controllers/login.controller.js';
+import { logoutController } from './controllers/logout.controller.js';
+import { currentUserController } from './controllers/currentUser.controller.js';
+import { updatePlayerController } from './controllers/updatePlayer.controller.js';
+import { refreshSessionController } from './controllers/refreshSession.controller.js';
 
 const router = express.Router();
 
-router.post('/register', registerHandler);
-router.post('/login', loginHandler);
-router.post('/logout', authorize, logoutHandler);
-router.get('/me', authorize, meHandler);
-router.put('/player', authorize, updatePlayerHandler);
-router.post('/refresh', authorize, refreshTokenHandler);
+router.post('/register', registerController);
+router.post('/login', loginUserController);
+router.post('/logout', authorize, logoutController);
+router.get('/me', authorize, currentUserController);
+router.put('/player', authorize, updatePlayerController);
+router.post('/refresh', authorize, refreshSessionController);
 
 export default router;
