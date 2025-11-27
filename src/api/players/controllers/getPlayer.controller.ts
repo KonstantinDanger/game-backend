@@ -1,5 +1,6 @@
 import type { NextFunction, Response, Request } from 'express';
 import { getPlayerService } from '../services/getPlayer.service.js';
+import { makePlayerData } from '@/utils/makeData.js';
 
 export async function getPlayerController(
   req: Request,
@@ -10,7 +11,7 @@ export async function getPlayerController(
     const player = await getPlayerService(req.params.id);
 
     res.json({
-      data: player,
+      data: makePlayerData(player),
     });
   } catch (err) {
     next(err);

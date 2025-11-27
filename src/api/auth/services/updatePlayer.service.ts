@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { PlayerModel } from '@/db/models/player.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
 import { generateSalt, hashPassword } from '@/utils/password.js';
 
 export async function updatePlayerService(
@@ -17,7 +17,9 @@ export async function updatePlayerService(
       throw createHttpError(400, 'ID, name and email are required');
     }
 
-    const player = await PlayerModel.findById(id);
+    const player = (await PlayerModel.findById(id).select(
+      '-passwordHash -passwordSalt',
+    )) as IPlayerDocument;
 
     if (!player) {
       throw createHttpError(404, 'Player not found');

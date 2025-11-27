@@ -26,6 +26,10 @@ export const refreshSession = async ({
   sessionId: string;
   refreshToken: string;
 }) => {
+  if (!sessionId || !refreshToken) {
+    throw createHttpError(400, 'Session ID and refresh token are required');
+  }
+
   const session = await SessionModel.findOne({
     _id: sessionId,
     refreshToken,
@@ -47,14 +51,21 @@ export const refreshSession = async ({
   return await createSession(session.userId);
 };
 
-export const setSessionCookies = (res: Response, session: ISessionDocument) => {
+export const setSessionCookies = (
+  res: Response,
+  session: { id: string; refreshToken: string; refreshTokenValidUntil: Date | number },
+) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
     expires: new Date(session.refreshTokenValidUntil),
   });
 
-  res.cookie('sessionId', session._id, {
+  res.cookie('sessionId', session.id, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
     expires: new Date(session.refreshTokenValidUntil),
   });
 };

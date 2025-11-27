@@ -2,6 +2,7 @@ import type { NextFunction, Response, Request } from 'express';
 import createHttpError from 'http-errors';
 
 import { SessionModel } from '@/db/models/session.js';
+import { PlayerModel } from '@/db/models/player';
 
 export async function authorize(
   req: Request,
@@ -9,16 +10,36 @@ export async function authorize(
   next: NextFunction,
 ) {
   try {
-    const sessionId = req.cookies.sessionId;
-    const refreshToken = req.cookies.refreshToken;
+    const authHeader = req.get('Authorization');
 
-    const session = await SessionModel.findOne({
-      _id: sessionId,
-      refreshToken,
-    });
+    if (!authHeader) {
+      return next(createHttpError(401, 'Please provide Authorization header'));
+    }
+
+    const [bearer, token] = authHeader.split(' ');
+
+    if (bearer !== 'Bearer' || !token) {
+      next(createHttpError(401, 'Auth header should be of type Bearer'));
+      return;
+    }
+
+    const session = await SessionModel.findOne({ accessToken: token });
 
     if (!session) {
-      throw createHttpError(401, 'Unauthorized');
+      return next(createHttpError(401, 'Session not found'));
+    }
+
+    const isAccessTokenExpired =
+      new Date() > new Date(session.accessTokenValidUntil);
+
+    if (isAccessTokenExpired) {
+      return next(createHttpError(401, 'Access token expired'));
+    }
+
+    const user = await PlayerModel.findById(session.userId);
+
+    if (!user) {
+      return next(createHttpError(401, 'Unauthorized'));
     }
 
     next();

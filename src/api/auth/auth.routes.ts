@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.post('/register', registerController);
 router.post('/login', loginUserController);
+router.get('/current-user', currentUserController);
 router.post('/logout', authorize, logoutController);
-router.get('/me', authorize, currentUserController);
 router.put('/player', authorize, updatePlayerController);
 router.post('/refresh', authorize, refreshSessionController);
 

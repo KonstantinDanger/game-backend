@@ -21,17 +21,15 @@ export function startServer() {
   app.use(express.json());
   app.use(pino({ transport: { target: 'pino-pretty' } }));
   app.use(
-    cors(
-      getEnvVar('NODE_ENV') === 'dev'
-        ? {
-            origin: getEnvVar('FRONTEND_URL'),
-            credentials: true,
-          }
-        : undefined,
-    ),
+    cors({
+      origin: getEnvVar('FRONTEND_DEV_URL'),
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      exposedHeaders: ['Set-Cookie'],
+    }),
   );
   app.use(cookieParser());
-
   app.get('/', defaultRoute);
   app.use('/api/auth', authRoutes);
   app.use('/api/matches', matchesRoutes);

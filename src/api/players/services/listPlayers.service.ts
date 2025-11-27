@@ -1,35 +1,28 @@
-import { NextFunction, Response } from 'express';
-import { PlayerModel } from '@/db/models/player.js';
-import { AuthRequest } from '@/api/auth/types.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
 
-export async function listPlayersService(
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction,
-) {
+export async function listPlayersService(query: {
+  page?: string;
+  perPage?: string;
+}) {
   try {
-    // Parse pagination from query params
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const skip = (page - 1) * limit;
+    const page = parseInt(query.page as string) || 1;
+    const perPage = parseInt(query.perPage as string) || 10;
+    const skip = (page - 1) * perPage;
 
-    const [players, total] = await Promise.all([
+    const [list, total]: [IPlayerDocument[], number] = await Promise.all([
       PlayerModel.find()
         .select('-passwordHash -passwordSalt')
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(limit),
+        .limit(perPage),
       PlayerModel.countDocuments(),
     ]);
 
-    const playersData = players.map((player) => ({
-      id: player._id.toString(),
-      name: player.name,
-      email: player.email,
-    }));
-
-    res.json(playersData);
+    return {
+      list,
+      total,
+    };
   } catch (err) {
-    next(err);
+    throw err;
   }
 }
