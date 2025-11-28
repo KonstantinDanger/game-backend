@@ -1,4 +1,4 @@
-import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
 
 export async function listPlayersService(query: {
   page?: string;

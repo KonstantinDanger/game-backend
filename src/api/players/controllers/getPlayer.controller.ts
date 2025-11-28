@@ -1,6 +1,6 @@
 import type { NextFunction, Response, Request } from 'express';
-import { getPlayerService } from '../services/getPlayer.service.js';
-import { makePlayerData } from '@/utils/makeData.js';
+import { getPlayerService } from '../services/getPlayer.service';
+import { makePlayerData } from '@/utils/makeData';
 
 export async function getPlayerController(
   req: Request,

@@ -1,4 +1,4 @@
-import { type IMatchDocument, MatchModel } from '@/db/models/match.js';
+import { type IMatchDocument, MatchModel } from '@/db/models/match';
 import createHttpError from 'http-errors';
 
 export async function updateMatchService(

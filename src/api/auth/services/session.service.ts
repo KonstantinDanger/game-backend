@@ -2,10 +2,11 @@ import type { Response } from 'express';
 import { Types } from 'mongoose';
 import createHttpError from 'http-errors';
 
-import { FIFTEEN_MINUTES, ONE_DAY } from '@/constants/datetime.js';
-import { ISessionDocument, SessionModel } from '@/db/models/session.js';
-import { generateToken } from '@/utils/token.js';
+import { FIFTEEN_MINUTES, ONE_DAY } from '@/constants/datetime';
+import { ISessionDocument, SessionModel } from '@/db/models/session';
+import { generateToken } from '@/utils/token';
 import { makeSessionData } from '@/utils/makeData';
+import getEnvVar from '@/utils/getEnvVar';
 
 export const createSession = async (userId: Types.ObjectId) => {
   const session = await SessionModel.create({
@@ -53,18 +54,22 @@ export const refreshSession = async ({
 
 export const setSessionCookies = (
   res: Response,
-  session: { id: string; refreshToken: string; refreshTokenValidUntil: Date | number },
+  session: {
+    id: string;
+    refreshToken: string;
+    refreshTokenValidUntil: Date | number;
+  },
 ) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: getEnvVar('NODE_ENV') === 'production',
     sameSite: 'lax',
     expires: new Date(session.refreshTokenValidUntil),
   });
 
   res.cookie('sessionId', session.id, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: getEnvVar('NODE_ENV') === 'production',
     sameSite: 'lax',
     expires: new Date(session.refreshTokenValidUntil),
   });

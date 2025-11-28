@@ -1,8 +1,5 @@
 import type { NextFunction, Response, Request } from 'express';
-import {
-  refreshSession,
-  setSessionCookies,
-} from '../services/session.service.js';
+import { refreshSession, setSessionCookies } from '../services/session.service';
 
 export async function refreshSessionController(
   req: Request,

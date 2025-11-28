@@ -1,8 +1,8 @@
 import type { NextFunction, Response, Request } from 'express';
 
-import { setSessionCookies } from '../services/session.service.js';
-import { registerService } from '../services/register.service.js';
-import { makePlayerData } from '@/utils/makeData.js';
+import { setSessionCookies } from '../services/session.service';
+import { registerService } from '../services/register.service';
+import { makePlayerData } from '@/utils/makeData';
 
 export async function registerController(
   req: Request,

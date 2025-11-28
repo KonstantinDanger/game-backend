@@ -1,5 +1,5 @@
-import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
-import { SessionModel } from '@/db/models/session.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
+import { SessionModel } from '@/db/models/session';
 import createHttpError from 'http-errors';
 
 export async function getCurrentUserService(

@@ -1,8 +1,8 @@
 import type { NextFunction, Response, Request } from 'express';
 
-import { listMatchesService } from '../services/listMatches.service.js';
-import { makeMatchData } from '@/utils/makeData.js';
-import { IMatchDocument } from '@/db/models/match.js';
+import { listMatchesService } from '../services/listMatches.service';
+import { makeMatchData } from '@/utils/makeData';
+import { IMatchDocument } from '@/db/models/match';
 
 export async function listMatchesController(
   req: Request,

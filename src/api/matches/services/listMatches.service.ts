@@ -1,4 +1,4 @@
-import { MatchModel } from '@/db/models/match.js';
+import { MatchModel } from '@/db/models/match';
 
 export async function listMatchesService(query: {
   page?: string;

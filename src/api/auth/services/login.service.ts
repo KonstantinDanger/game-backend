@@ -1,9 +1,9 @@
 import type { Types } from 'mongoose';
 import createHttpError from 'http-errors';
 
-import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
-import { verifyPassword } from '@/utils/password.js';
-import { createSession } from './session.service.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
+import { verifyPassword } from '@/utils/password';
+import { createSession } from './session.service';
 
 export async function loginService(body: { email: string; password: string }) {
   const { email, password } = body;

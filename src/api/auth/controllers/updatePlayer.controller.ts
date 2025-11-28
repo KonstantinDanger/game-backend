@@ -1,7 +1,7 @@
 import type { NextFunction, Response, Request } from 'express';
 
-import { updatePlayerService } from '../services/updatePlayer.service.js';
-import { makePlayerData } from '@/utils/makeData.js';
+import { updatePlayerService } from '../services/updatePlayer.service';
+import { makePlayerData } from '@/utils/makeData';
 
 export async function updatePlayerController(
   req: Request,

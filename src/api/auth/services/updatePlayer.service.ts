@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
-import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
-import { generateSalt, hashPassword } from '@/utils/password.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
+import { generateSalt, hashPassword } from '@/utils/password';
 
 export async function updatePlayerService(
   body: {

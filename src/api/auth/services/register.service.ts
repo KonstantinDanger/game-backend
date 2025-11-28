@@ -1,9 +1,9 @@
 import { type Types } from 'mongoose';
 import createHttpError from 'http-errors';
 
-import { PlayerModel } from '@/db/models/player.js';
-import { generateSalt, hashPassword } from '@/utils/password.js';
-import { createSession } from './session.service.js';
+import { PlayerModel } from '@/db/models/player';
+import { generateSalt, hashPassword } from '@/utils/password';
+import { createSession } from './session.service';
 
 export async function registerService(body: {
   name: string;

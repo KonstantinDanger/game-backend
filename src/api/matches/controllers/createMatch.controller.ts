@@ -1,7 +1,7 @@
 import type { NextFunction, Response, Request } from 'express';
-import { IMatchDocument } from '@/db/models/match.js';
-import { makeMatchData } from '@/utils/makeData.js';
-import { createMatchService } from '../services/createMatch.service.js';
+import { IMatchDocument } from '@/db/models/match';
+import { makeMatchData } from '@/utils/makeData';
+import { createMatchService } from '../services/createMatch.service';
 
 export async function createMatchController(
   req: Request,

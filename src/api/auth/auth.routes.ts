@@ -1,12 +1,12 @@
 import express from 'express';
-import { asyncHandler } from '@/utils/asyncHandler.js';
-import { authorize } from './auth.middleware.js';
-import { registerController } from './controllers/register.controller.js';
-import { loginUserController } from './controllers/login.controller.js';
-import { logoutController } from './controllers/logout.controller.js';
-import { currentUserController } from './controllers/currentUser.controller.js';
-import { updatePlayerController } from './controllers/updatePlayer.controller.js';
-import { refreshSessionController } from './controllers/refreshSession.controller.js';
+import { asyncHandler } from '@/utils/asyncHandler';
+import { authorize } from './auth.middleware';
+import { registerController } from './controllers/register.controller';
+import { loginUserController } from './controllers/login.controller';
+import { logoutController } from './controllers/logout.controller';
+import { currentUserController } from './controllers/currentUser.controller';
+import { updatePlayerController } from './controllers/updatePlayer.controller';
+import { refreshSessionController } from './controllers/refreshSession.controller';
 
 const router = express.Router();
 

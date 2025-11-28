@@ -1,7 +1,7 @@
 import type { NextFunction, Response, Request } from 'express';
 
-import { listPlayersService } from '../services/listPlayers.service.js';
-import { makePlayerData } from '@/utils/makeData.js';
+import { listPlayersService } from '../services/listPlayers.service';
+import { makePlayerData } from '@/utils/makeData';
 
 export async function listPlayersController(
   req: Request,

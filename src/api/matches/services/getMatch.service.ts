@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 
-import { IMatchDocument, MatchModel } from '@/db/models/match.js';
+import { IMatchDocument, MatchModel } from '@/db/models/match';
 
 export async function getMatchService(id: string) {
   if (!id) {

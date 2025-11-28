@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 
-import { loginService } from '../services/login.service.js';
-import { setSessionCookies } from '../services/session.service.js';
-import { makePlayerData } from '@/utils/makeData.js';
+import { loginService } from '../services/login.service';
+import { setSessionCookies } from '../services/session.service';
+import { makePlayerData } from '@/utils/makeData';
 
 export const loginUserController = async (
   req: Request,

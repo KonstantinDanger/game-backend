@@ -1,4 +1,4 @@
-import { SessionModel } from '@/db/models/session.js';
+import { SessionModel } from '@/db/models/session';
 
 export async function logoutService(sessionId: string | undefined) {
   if (!sessionId) {

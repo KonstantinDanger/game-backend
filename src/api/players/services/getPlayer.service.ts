@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 
-import { IPlayerDocument, PlayerModel } from '@/db/models/player.js';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
 
 export async function getPlayerService(id: string) {
   if (!id) {

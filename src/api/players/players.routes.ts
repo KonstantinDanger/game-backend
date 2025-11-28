@@ -1,7 +1,7 @@
 import express from 'express';
-import { asyncHandler } from '@/utils/asyncHandler.js';
-import { getPlayerController } from './controllers/getPlayer.controller.js';
-import { listPlayersController } from './controllers/listPlayers.controller.js';
+import { asyncHandler } from '@/utils/asyncHandler';
+import { getPlayerController } from './controllers/getPlayer.controller';
+import { listPlayersController } from './controllers/listPlayers.controller';
 
 const router = express.Router();
 

@@ -1,7 +1,7 @@
 import type { NextFunction, Response, Request } from 'express';
 import createHttpError from 'http-errors';
 
-import { SessionModel } from '@/db/models/session.js';
+import { SessionModel } from '@/db/models/session';
 import { PlayerModel } from '@/db/models/player';
 
 export async function authorize(

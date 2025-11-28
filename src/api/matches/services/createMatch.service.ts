@@ -1,4 +1,4 @@
-import { MatchModel } from '@/db/models/match.js';
+import { MatchModel } from '@/db/models/match';
 import createHttpError from 'http-errors';
 
 export async function createMatchService(body: {

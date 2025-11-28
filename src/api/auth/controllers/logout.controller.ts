@@ -1,5 +1,5 @@
 import type { NextFunction, Response, Request } from 'express';
-import { logoutService } from '../services/logout.service.js';
+import { logoutService } from '../services/logout.service';
 
 export async function logoutController(
   req: Request,
