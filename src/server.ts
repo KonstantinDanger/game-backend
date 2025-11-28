@@ -22,7 +22,10 @@ export function startServer() {
   app.use(pino({ transport: { target: 'pino-pretty' } }));
   app.use(
     cors({
-      origin: getEnvVar('FRONTEND_DEV_URL'),
+      origin:
+        getEnvVar('NODE_ENV') === 'production'
+          ? getEnvVar('FRONTEND_PROD_URL')
+          : getEnvVar('FRONTEND_DEV_URL'),
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization'],
