@@ -8,12 +8,12 @@ export async function listPlayersController(
   res: Response,
   _next: NextFunction,
 ) {
-  const { list, totalPages } = await listPlayersService(req.query);
+  const { list, totalCount } = await listPlayersService(req.query);
 
   res.json({
     data: {
       list: list.map((player) => makePlayerData(player)),
-      totalPages,
+      totalCount,
     },
   });
 }

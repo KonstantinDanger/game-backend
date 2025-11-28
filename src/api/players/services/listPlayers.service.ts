@@ -8,7 +8,7 @@ export async function listPlayersService(query: {
   const perPage = parseInt(query.perPage as string) || 10;
   const skip = (page - 1) * perPage;
 
-  const [list, totalPages]: [IPlayerDocument[], number] = await Promise.all([
+  const [list, totalCount]: [IPlayerDocument[], number] = await Promise.all([
     PlayerModel.find()
       .select('-passwordHash -passwordSalt')
       .sort({ createdAt: -1 })
@@ -19,6 +19,6 @@ export async function listPlayersService(query: {
 
   return {
     list,
-    totalPages,
+    totalCount,
   };
 }

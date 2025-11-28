@@ -9,12 +9,12 @@ export async function listMatchesController(
   res: Response,
   _next: NextFunction,
 ) {
-  const { list, totalPages } = await listMatchesService(req.query);
+  const { list, totalCount } = await listMatchesService(req.query);
 
   res.json({
     data: {
       list: list.map((match) => makeMatchData(match as IMatchDocument)),
-      totalPages,
+      totalCount,
     },
   });
 }
