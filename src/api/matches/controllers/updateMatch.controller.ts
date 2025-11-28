@@ -7,15 +7,11 @@ import { updateMatchService } from '../services/updateMatch.service.js';
 export async function updateMatchController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const match = await updateMatchService(req.body, req.params.id);
+  const match = await updateMatchService(req.body, req.params.id);
 
-    res.json({
-      data: makeMatchData(match as IMatchDocument),
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    data: makeMatchData(match as IMatchDocument),
+  });
 }

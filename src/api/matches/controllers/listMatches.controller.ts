@@ -7,18 +7,14 @@ import { IMatchDocument } from '@/db/models/match.js';
 export async function listMatchesController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const { list, totalPages } = await listMatchesService(req.query);
+  const { list, totalPages } = await listMatchesService(req.query);
 
-    res.json({
-      data: {
-        list: list.map((match) => makeMatchData(match as IMatchDocument)),
-        totalPages,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    data: {
+      list: list.map((match) => makeMatchData(match as IMatchDocument)),
+      totalPages,
+    },
+  });
 }

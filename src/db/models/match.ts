@@ -1,14 +1,14 @@
 import { Schema, model, type Document } from 'mongoose';
 
 export interface IMatchDocument extends Document {
-  matchTime: Date;
+  matchTime: number;
   matchDate: Date;
 }
 
 const matchSchema = new Schema<IMatchDocument>(
   {
     matchTime: {
-      type: Date,
+      type: Number,
       required: true,
     },
     matchDate: {

@@ -6,15 +6,11 @@ import { createMatchService } from '../services/createMatch.service.js';
 export async function createMatchController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const match = await createMatchService(req.body);
+  const match = await createMatchService(req.body);
 
-    res.status(201).json({
-      data: makeMatchData(match as IMatchDocument),
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.status(201).json({
+    data: makeMatchData(match as IMatchDocument),
+  });
 }

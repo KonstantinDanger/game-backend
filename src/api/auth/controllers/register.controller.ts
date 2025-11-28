@@ -7,21 +7,17 @@ import { makePlayerData } from '@/utils/makeData.js';
 export async function registerController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const { session, player } = await registerService(req.body);
+  const { session, player } = await registerService(req.body);
 
-    setSessionCookies(res, session);
+  setSessionCookies(res, session);
 
-    res.status(201).json({
-      message: 'Player registered successfully',
-      data: {
-        accessToken: session.accessToken,
-        player: makePlayerData(player),
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.status(201).json({
+    message: 'Player registered successfully',
+    data: {
+      accessToken: session.accessToken,
+      player: makePlayerData(player),
+    },
+  });
 }

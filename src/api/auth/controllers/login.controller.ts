@@ -7,22 +7,18 @@ import { makePlayerData } from '@/utils/makeData.js';
 export const loginUserController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
-  try {
-    const { session, player } = await loginService(req.body);
+  const { session, player } = await loginService(req.body);
 
-    setSessionCookies(res, session);
+  setSessionCookies(res, session);
 
-    res.json({
-      status: 200,
-      message: 'Successfully logged in!',
-      data: {
-        accessToken: session.accessToken,
-        player: makePlayerData(player),
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    status: 200,
+    message: 'Successfully logged in!',
+    data: {
+      accessToken: session.accessToken,
+      player: makePlayerData(player),
+    },
+  });
 };

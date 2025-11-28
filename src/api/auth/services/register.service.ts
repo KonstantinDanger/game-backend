@@ -10,35 +10,31 @@ export async function registerService(body: {
   email: string;
   password: string;
 }) {
-  try {
-    const { name, email, password } = body;
+  const { name, email, password } = body;
 
-    if (!name || !email || !password) {
-      throw createHttpError(400, 'Name, email and password are required');
-    }
-
-    const existingPlayer = await PlayerModel.findOne({ email });
-
-    if (existingPlayer) {
-      throw createHttpError(409, 'Player with this email already exists');
-    }
-
-    const passwordSalt = generateSalt();
-    const passwordHash = await hashPassword(password, passwordSalt);
-
-    const player = await PlayerModel.create({
-      name,
-      email,
-      passwordHash,
-      passwordSalt,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
-    const session = await createSession(player._id as Types.ObjectId);
-
-    return { session, player };
-  } catch (err) {
-    throw err;
+  if (!name || !email || !password) {
+    throw createHttpError(400, 'Name, email and password are required');
   }
+
+  const existingPlayer = await PlayerModel.findOne({ email });
+
+  if (existingPlayer) {
+    throw createHttpError(409, 'Player with this email already exists');
+  }
+
+  const passwordSalt = generateSalt();
+  const passwordHash = await hashPassword(password, passwordSalt);
+
+  const player = await PlayerModel.create({
+    name,
+    email,
+    passwordHash,
+    passwordSalt,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  const session = await createSession(player._id as Types.ObjectId);
+
+  return { session, player };
 }

@@ -5,15 +5,11 @@ import { makePlayerData } from '@/utils/makeData.js';
 export async function getPlayerController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const player = await getPlayerService(req.params.id);
+  const player = await getPlayerService(req.params.id);
 
-    res.json({
-      data: makePlayerData(player),
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    data: makePlayerData(player),
+  });
 }

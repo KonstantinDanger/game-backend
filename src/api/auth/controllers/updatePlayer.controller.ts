@@ -6,19 +6,15 @@ import { makePlayerData } from '@/utils/makeData.js';
 export async function updatePlayerController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const player = await updatePlayerService(
-      req.body,
-      req.params.id || req.body.user._id.toString(),
-    );
+  const player = await updatePlayerService(
+    req.body,
+    req.params.id || req.body.user._id.toString(),
+  );
 
-    res.json({
-      message: 'Player updated successfully',
-      data: makePlayerData(player),
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    message: 'Player updated successfully',
+    data: makePlayerData(player),
+  });
 }

@@ -5,16 +5,12 @@ import { makePlayerData } from '@/utils/makeData.js';
 export async function currentUserController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const { user, session } = await getCurrentUserService(
-      req.cookies.sessionId,
-      req.cookies.refreshToken,
-    );
+  const { user, session } = await getCurrentUserService(
+    req.cookies.sessionId,
+    req.cookies.refreshToken,
+  );
 
-    res.json({ data: makePlayerData(user), accessToken: session.accessToken });
-  } catch (err) {
-    next(err);
-  }
+  res.json({ data: makePlayerData(user), accessToken: session.accessToken });
 }

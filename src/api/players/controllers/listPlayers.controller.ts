@@ -6,18 +6,14 @@ import { makePlayerData } from '@/utils/makeData.js';
 export async function listPlayersController(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  try {
-    const { list, totalPages } = await listPlayersService(req.query);
+  const { list, totalPages } = await listPlayersService(req.query);
 
-    res.json({
-      data: {
-        list: list.map((player) => makePlayerData(player)),
-        totalPages,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+  res.json({
+    data: {
+      list: list.map((player) => makePlayerData(player)),
+      totalPages,
+    },
+  });
 }
