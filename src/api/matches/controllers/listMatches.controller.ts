@@ -10,12 +10,12 @@ export async function listMatchesController(
   next: NextFunction,
 ) {
   try {
-    const { list, total } = await listMatchesService(req.query);
+    const { list, totalPages } = await listMatchesService(req.query);
 
     res.json({
       data: {
         list: list.map((match) => makeMatchData(match as IMatchDocument)),
-        total,
+        totalPages,
       },
     });
   } catch (err) {

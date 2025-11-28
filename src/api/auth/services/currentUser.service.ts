@@ -25,15 +25,15 @@ export async function getCurrentUserService(
       throw createHttpError(401, 'Session not found');
     }
 
-    const player = (await PlayerModel.findOne({
+    const user = (await PlayerModel.findOne({
       _id: session.userId,
     }).select('-passwordHash -passwordSalt')) as IPlayerDocument;
 
-    if (!player) {
+    if (!user) {
       throw createHttpError(401, 'Player not found');
     }
 
-    return player;
+    return { user, session };
   } catch (err) {
     throw err;
   }

@@ -13,9 +13,7 @@ export async function loginService(body: { email: string; password: string }) {
       throw createHttpError(400, 'Email and password are required');
     }
 
-    const player = (await PlayerModel.findOne({ email }).select(
-      '-passwordHash -passwordSalt',
-    )) as IPlayerDocument;
+    const player = (await PlayerModel.findOne({ email })) as IPlayerDocument;
 
     if (!player) {
       throw createHttpError(401, 'User not found');

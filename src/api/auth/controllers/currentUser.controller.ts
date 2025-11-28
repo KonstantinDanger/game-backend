@@ -8,12 +8,12 @@ export async function currentUserController(
   next: NextFunction,
 ) {
   try {
-    const user = await getCurrentUserService(
+    const { user, session } = await getCurrentUserService(
       req.cookies.sessionId,
       req.cookies.refreshToken,
     );
 
-    res.json({ data: makePlayerData(user) });
+    res.json({ data: makePlayerData(user), accessToken: session.accessToken });
   } catch (err) {
     next(err);
   }

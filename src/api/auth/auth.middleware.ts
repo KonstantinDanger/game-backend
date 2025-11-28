@@ -10,7 +10,7 @@ export async function authorize(
   next: NextFunction,
 ) {
   try {
-    const authHeader = req.get('Authorization');
+    const authHeader = req.headers.authorization;
 
     if (!authHeader) {
       return next(createHttpError(401, 'Please provide Authorization header'));
@@ -33,6 +33,7 @@ export async function authorize(
       new Date() > new Date(session.accessTokenValidUntil);
 
     if (isAccessTokenExpired) {
+      await SessionModel.deleteOne({ accessToken: token });
       return next(createHttpError(401, 'Access token expired'));
     }
 
@@ -42,6 +43,8 @@ export async function authorize(
       return next(createHttpError(401, 'Unauthorized'));
     }
 
+    if (!req.body) req.body = {};
+    req.body.user = user;
     next();
   } catch (err) {
     next(err);

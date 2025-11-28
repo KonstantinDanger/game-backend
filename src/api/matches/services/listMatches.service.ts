@@ -9,14 +9,14 @@ export async function listMatchesService(query: {
     const perPage = parseInt(query.perPage as string) || 10;
     const skip = (page - 1) * perPage;
 
-    const [list, total] = await Promise.all([
+    const [list, totalPages] = await Promise.all([
       MatchModel.find().sort({ createdAt: -1 }).skip(skip).limit(perPage),
       MatchModel.countDocuments(),
     ]);
 
     return {
       list,
-      total,
+      totalPages,
     };
   } catch (err) {
     throw err;

@@ -9,13 +9,14 @@ export async function updatePlayerController(
   next: NextFunction,
 ) {
   try {
-    const player = await updatePlayerService(req.body, req.params.id);
+    const player = await updatePlayerService(
+      req.body,
+      req.params.id || req.body.user._id.toString(),
+    );
 
     res.json({
       message: 'Player updated successfully',
-      data: {
-        player: makePlayerData(player),
-      },
+      data: makePlayerData(player),
     });
   } catch (err) {
     next(err);

@@ -4,6 +4,7 @@ import { generateSalt, hashPassword } from '@/utils/password.js';
 
 export async function updatePlayerService(
   body: {
+    user: IPlayerDocument;
     name?: string;
     email?: string;
     password?: string;
@@ -13,27 +14,25 @@ export async function updatePlayerService(
   try {
     const { name, email, password } = body;
 
-    if (!id || !name || !email) {
-      throw createHttpError(400, 'ID, name and email are required');
+    if (!name || !email) {
+      throw createHttpError(400, 'Name and email are required');
     }
 
-    const player = (await PlayerModel.findById(id).select(
-      '-passwordHash -passwordSalt',
-    )) as IPlayerDocument;
+    const player = (await PlayerModel.findById(id)) as IPlayerDocument;
 
     if (!player) {
       throw createHttpError(404, 'Player not found');
     }
 
-    if (name !== undefined) {
+    if (name) {
       player.name = name;
     }
 
-    if (email !== undefined) {
+    if (email) {
       player.email = email;
     }
 
-    if (password !== undefined) {
+    if (password) {
       const passwordSalt = generateSalt();
       const passwordHash = await hashPassword(password, passwordSalt);
       player.passwordHash = passwordHash;

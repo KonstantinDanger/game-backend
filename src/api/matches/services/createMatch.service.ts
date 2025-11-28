@@ -8,7 +8,7 @@ export async function createMatchService(body: {
   try {
     const { matchTime, matchDate } = body;
 
-    if (matchTime === undefined || matchDate === undefined) {
+    if (!matchTime || !matchDate) {
       throw createHttpError(400, 'matchTime and matchDate are required');
     }
 
