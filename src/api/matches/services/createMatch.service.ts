@@ -2,16 +2,18 @@ import { MatchModel } from '@/db/models/match';
 import createHttpError from 'http-errors';
 
 export async function createMatchService(body: {
+  name: string;
   matchTime: Date;
   matchDate: Date;
 }) {
-  const { matchTime, matchDate } = body;
+  const { name, matchTime, matchDate } = body;
 
-  if (!matchTime || !matchDate) {
-    throw createHttpError(400, 'matchTime and matchDate are required');
+  if (!name || !matchTime || !matchDate) {
+    throw createHttpError(400, 'name, matchTime and matchDate are required');
   }
 
   const match = await MatchModel.create({
+    name,
     matchTime,
     matchDate,
   });

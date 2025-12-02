@@ -1,5 +1,4 @@
 import type { NextFunction, Response, Request } from 'express';
-import { IMatchDocument } from '@/db/models/match';
 import { getMatchService } from '../services/getMatch.service';
 import { makeMatchData } from '@/utils/makeData';
 
@@ -11,6 +10,6 @@ export async function getMatchController(
   const match = await getMatchService(req.params.id);
 
   res.json({
-    data: makeMatchData(match as IMatchDocument),
+    data: makeMatchData(match),
   });
 }

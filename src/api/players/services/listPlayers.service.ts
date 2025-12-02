@@ -9,12 +9,12 @@ export async function listPlayersService(query: {
   const skip = (page - 1) * perPage;
 
   const [list, totalCount]: [IPlayerDocument[], number] = await Promise.all([
-    PlayerModel.find()
-      .select('-passwordHash -passwordSalt')
+    PlayerModel.find({ removedAt: null })
+      .select('-passwordHash -passwordSalt -email')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(perPage),
-    PlayerModel.countDocuments(),
+    PlayerModel.countDocuments({ removedAt: null }),
   ]);
 
   return {

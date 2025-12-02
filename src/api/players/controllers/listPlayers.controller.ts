@@ -9,10 +9,10 @@ export async function listPlayersController(
   _next: NextFunction,
 ) {
   const { list, totalCount } = await listPlayersService(req.query);
-
+  const isAdmin = req.body?.user?.isAdmin === true;
   res.json({
     data: {
-      list: list.map((player) => makePlayerData(player)),
+      list: list.map((player) => makePlayerData(player, isAdmin)),
       totalCount,
     },
   });

@@ -1,9 +1,8 @@
 import createHttpError from 'http-errors';
 
 import { IPlayerDocument, PlayerModel } from '@/db/models/player';
-import { MatchModel } from '@/db/models/match';
 
-export async function getPlayerService(id: string) {
+export async function deletePlayerService(id: string) {
   if (!id) {
     throw createHttpError(400, 'ID is required');
   }
@@ -17,11 +16,13 @@ export async function getPlayerService(id: string) {
     throw createHttpError(404, 'Player not found');
   }
 
-  // Get matches for this player (only non-removed matches)
-  const matches = await MatchModel.find({
-    _id: { $in: player.playedMatchesIds || [] },
-    removedAt: null,
-  }).sort({ matchDate: -1 });
+  if (player.isAdmin) {
+    throw createHttpError(403, 'Cannot delete admin player');
+  }
 
-  return { player, matches };
+  player.removedAt = new Date();
+  await player.save();
+
+  return player;
 }
+

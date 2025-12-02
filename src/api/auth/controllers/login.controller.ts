@@ -18,7 +18,7 @@ export const loginUserController = async (
     message: 'Successfully logged in!',
     data: {
       accessToken: session.accessToken,
-      player: makePlayerData(player),
+      player: makePlayerData(player, true),
     },
   });
 };

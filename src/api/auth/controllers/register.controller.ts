@@ -17,7 +17,7 @@ export async function registerController(
     message: 'Player registered successfully',
     data: {
       accessToken: session.accessToken,
-      player: makePlayerData(player),
+      player: makePlayerData(player, true),
     },
   });
 }

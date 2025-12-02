@@ -9,8 +9,11 @@ export async function listMatchesService(query: {
   const skip = (page - 1) * perPage;
 
   const [list, totalCount] = await Promise.all([
-    MatchModel.find().sort({ createdAt: -1 }).skip(skip).limit(perPage),
-    MatchModel.countDocuments(),
+    MatchModel.find({ removedAt: null })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(perPage),
+    MatchModel.countDocuments({ removedAt: null }),
   ]);
 
   return {

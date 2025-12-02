@@ -12,5 +12,5 @@ export async function currentUserController(
     req.cookies.refreshToken,
   );
 
-  res.json({ data: makePlayerData(user), accessToken: session.accessToken });
+  res.json({ data: makePlayerData(user, true), accessToken: session.accessToken });
 }

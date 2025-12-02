@@ -8,13 +8,10 @@ export async function updatePlayerController(
   res: Response,
   _next: NextFunction,
 ) {
-  const player = await updatePlayerService(
-    req.body,
-    req.params.id || req.body.user._id.toString(),
-  );
+  const player = await updatePlayerService(req.body, req.params.id);
+  const isAdmin = req.body?.user?.isAdmin === true;
 
   res.json({
-    message: 'Player updated successfully',
-    data: makePlayerData(player, true),
+    data: makePlayerData(player, isAdmin),
   });
 }

@@ -1,5 +1,4 @@
 import { model, Schema, type Types, type Document } from 'mongoose';
-import { PlayerModel } from './player';
 
 export interface ISessionDocument extends Document {
   userId: Types.ObjectId;
@@ -13,7 +12,7 @@ const sessionSchema = new Schema<ISessionDocument>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: PlayerModel.name,
+      ref: 'Player',
       required: true,
     },
     accessToken: {

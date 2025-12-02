@@ -1,4 +1,4 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, type Document } from 'mongoose';
 
 export interface IBossDocument extends Document {
   name: string;
@@ -7,7 +7,7 @@ export interface IBossDocument extends Document {
   damage: number;
 }
 
-const bossSchema = new Schema<IBossDocument>(
+const bossSchema: Schema<IBossDocument> = new Schema<IBossDocument>(
   {
     name: {
       type: String,
@@ -33,4 +33,3 @@ const bossSchema = new Schema<IBossDocument>(
 );
 
 export const BossModel = model<IBossDocument>('Boss', bossSchema);
-

@@ -1,8 +1,8 @@
 import type { NextFunction, Response, Request } from 'express';
 import createHttpError from 'http-errors';
 
-import { SessionModel } from '@/db/models/session';
-import { PlayerModel } from '@/db/models/player';
+import { ISessionDocument, SessionModel } from '@/db/models/session';
+import { IPlayerDocument, PlayerModel } from '@/db/models/player';
 
 export async function authorize(
   req: Request,
@@ -44,4 +44,31 @@ export async function authorize(
   if (!req.body) req.body = {};
   req.body.user = user;
   next();
+}
+
+export async function initUser(
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) {
+  try {
+    const authHeader = req.headers.authorization;
+    const [bearer, token] = authHeader?.split(' ') || [];
+
+    const session = (await SessionModel.findOne({
+      accessToken: token,
+    })) as ISessionDocument;
+
+    const user = (await PlayerModel.findById(
+      session.userId,
+    )) as IPlayerDocument;
+
+    if (!req.body) req.body = {};
+
+    req.body.user = user;
+
+    next();
+  } catch (error) {
+    next();
+  }
 }
