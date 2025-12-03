@@ -17,19 +17,15 @@ export function makePlayerData(player: IPlayerDocument, isAdmin?: boolean) {
 export function makeMatchData(
   match: IMatchDocument & {
     winner?: IPlayerDocument | null;
-    looser?: IPlayerDocument | null;
+    loser?: IPlayerDocument | null;
   },
 ) {
-  const winner = match.winner ? makePlayerData(match.winner) : null;
-  const looser = match.looser ? makePlayerData(match.looser) : null;
-
   return {
     id: (match._id as Types.ObjectId).toString(),
-    name: match.name,
     matchTime: match.matchTime,
     matchDate: match.matchDate,
-    winner,
-    looser,
+    winner: match.winner,
+    loser: match.loser,
   };
 }
 

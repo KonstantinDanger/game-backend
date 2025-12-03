@@ -1,4 +1,6 @@
 import { MatchModel } from '@/db/models/match';
+import { PlayerModel } from '@/db/models/player';
+// import { match } from 'assert';
 
 export async function listMatchesService(query: {
   page?: string;
@@ -12,12 +14,26 @@ export async function listMatchesService(query: {
     MatchModel.find({ removedAt: null })
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(perPage),
+      .limit(perPage)
+      .lean(),
     MatchModel.countDocuments({ removedAt: null }),
   ]);
 
+  const matches = await Promise.all(
+    list.map(async (match) => {
+      const winner = await PlayerModel.findOne({ _id: match.winnerId });
+      const loser = await PlayerModel.findOne({ _id: match.loserId });
+
+      return {
+        ...match,
+        winner,
+        loser,
+      };
+    }),
+  );
+
   return {
-    list,
+    list: matches,
     totalCount,
   };
 }
