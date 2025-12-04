@@ -12,10 +12,6 @@ export async function registerService(body: {
 }) {
   const { name, email, password } = body;
 
-  if (!name || !email || !password) {
-    throw createHttpError(400, 'Name, email and password are required');
-  }
-
   const existingPlayer = await PlayerModel.findOne({ email });
 
   if (existingPlayer) {

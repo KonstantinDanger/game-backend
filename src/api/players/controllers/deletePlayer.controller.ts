@@ -8,7 +8,7 @@ export async function deletePlayerController(
   res: Response,
   next: NextFunction,
 ) {
-  if (!req.body?.user?.isAdmin) {
+  if (!req.user?.isAdmin) {
     return next(createHttpError(403, 'Only admins can delete players'));
   }
 

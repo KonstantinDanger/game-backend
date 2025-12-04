@@ -1,8 +1,8 @@
 import type { NextFunction, Response, Request } from 'express';
 import createHttpError from 'http-errors';
 
-import { ISessionDocument, SessionModel } from '@/db/models/session';
-import { IPlayerDocument, PlayerModel } from '@/db/models/player';
+import { SessionModel } from '@/db/models/session';
+import { PlayerModel } from '@/db/models/player';
 
 export async function authorize(
   req: Request,
@@ -41,8 +41,7 @@ export async function authorize(
     return next(createHttpError(401, 'Unauthorized'));
   }
 
-  if (!req.body) req.body = {};
-  req.body.user = user;
+  req.user = user;
   next();
 }
 
@@ -53,23 +52,42 @@ export async function initUser(
 ) {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader?.split(' ')[1] || [];
+    const token = authHeader?.split(' ')[1];
 
-    const session = (await SessionModel.findOne({
+    if (!token) {
+      return next();
+    }
+
+    const session = await SessionModel.findOne({
       accessToken: token,
-    })) as ISessionDocument;
+    });
 
-    const user = (await PlayerModel.findById(
-      session.userId,
-    )) as IPlayerDocument;
+    if (!session) {
+      return next();
+    }
 
-    if (!req.body) req.body = {};
+    const isAccessTokenExpired =
+      new Date() > new Date(session.accessTokenValidUntil);
 
-    req.body.user = user;
+    if (isAccessTokenExpired) {
+      return next();
+    }
+
+    const user = await PlayerModel.findById(session.userId);
+
+    if (!user) {
+      return next();
+    }
+
+    req.user = user;
 
     next();
   } catch (error) {
-    console.error(error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error(error);
+    } else {
+      console.error('Authentication error occurred');
+    }
     next();
   }
 }

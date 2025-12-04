@@ -8,7 +8,7 @@ export async function getPlayerController(
 ) {
   const { player, matches } = await getPlayerService(
     req.params.id,
-    req.body?.user?.isAdmin === true,
+    req.user?.isAdmin === true,
   );
 
   res.json({

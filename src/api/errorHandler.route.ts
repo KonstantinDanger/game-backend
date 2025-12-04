@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 
 export default function errorHandlerRoute(
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction,
 ) {
@@ -11,23 +11,27 @@ export default function errorHandlerRoute(
     return next(err);
   }
 
-  console.error('Error occurred:', {
-    message: err.message,
-    stack: err.stack,
-    method: req.method,
-    url: req.url,
-    timestamp: new Date().toISOString(),
-  });
-
   if (createHttpError.isHttpError(err)) {
-    return res.status(err.statusCode).json({
+    const response: {
+      message: string;
+      status: number;
+      errors?: unknown;
+    } = {
       message: err.message,
       status: err.statusCode,
-    });
+    };
+
+    if (typeof err === 'object' && err !== null && 'errors' in err) {
+      response.errors = (err as unknown as { errors: unknown }).errors;
+    }
+
+    return res.status(err.statusCode).json(response);
   }
+
+  const isProduction = process.env.NODE_ENV === 'production';
 
   return res.status(500).json({
     message: 'Something went wrong',
-    error: err.message,
+    ...(isProduction ? {} : { error: err.message }),
   });
 }

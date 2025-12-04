@@ -8,10 +8,6 @@ import { createSession } from './session.service';
 export async function loginService(body: { email: string; password: string }) {
   const { email, password } = body;
 
-  if (!email || !password) {
-    throw createHttpError(400, 'Email and password are required');
-  }
-
   const player = (await PlayerModel.findOne({ email })) as IPlayerDocument;
 
   if (!player) {

@@ -1,13 +1,11 @@
 import { MatchModel } from '@/db/models/match';
 import { PlayerModel } from '@/db/models/player';
-// import { match } from 'assert';
 
 export async function getListMatchesService(query: {
-  page?: string;
-  perPage?: string;
+  page: number;
+  perPage: number;
 }) {
-  const page = parseInt(query.page as string) || 1;
-  const perPage = parseInt(query.perPage as string) || 10;
+  const { page, perPage } = query;
   const skip = (page - 1) * perPage;
 
   const [list, totalCount] = await Promise.all([

@@ -13,10 +13,6 @@ export async function updatePlayerService(
 ) {
   const { name, email, password } = body;
 
-  if (!name) {
-    throw createHttpError(400, 'Name is required');
-  }
-
   const player = (await PlayerModel.findById(id)) as IPlayerDocument;
 
   if (!player) {

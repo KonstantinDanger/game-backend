@@ -5,10 +5,6 @@ import { IMatchDocument, MatchModel } from '@/db/models/match';
 import { makeMatchData, makePlayerData } from '@/utils/makeData';
 
 export async function getPlayerService(id: string, isAdmin?: boolean) {
-  if (!id) {
-    throw createHttpError(400, 'ID is required');
-  }
-
   const player = (await PlayerModel.findOne({
     _id: id,
     removedAt: null,

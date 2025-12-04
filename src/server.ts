@@ -7,10 +7,13 @@ import authRoutes from '@/api/auth/auth.routes';
 import matchesRoutes from '@/api/matches/matches.routes';
 import playersRoutes from '@/api/players/players.routes';
 import playerMatchInfoRoutes from '@/api/playerMatchInfo/playerMatchInfo.routes';
+import metricsRoutes from '@/api/metrics/metrics.routes';
 import cookieParser from 'cookie-parser';
 import defaultRoute from '@/api/default.route';
 import notFoundRoute from '@/api/notFound.route';
 import errorHandlerRoute from '@/api/errorHandler.route';
+import { performanceMiddleware } from '@/middleware/performance.middleware';
+import { generalRateLimiter } from '@/middleware/rateLimit.middleware';
 
 dotenv.config();
 
@@ -19,7 +22,8 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 export function startServer() {
   const app = express();
 
-  app.use(express.json());
+  app.use(express.json({ limit: '10mb' }));
+  app.use(performanceMiddleware);
   app.use(pino({ transport: { target: 'pino-pretty' } }));
   app.use(
     cors({
@@ -29,15 +33,24 @@ export function startServer() {
           : getEnvVar('FRONTEND_DEV_URL'),
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
       credentials: false,
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Refresh-Token', 'X-Session-Id'],
+      allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'X-Refresh-Token',
+        'X-Session-Id',
+      ],
     }),
   );
   app.use(cookieParser());
+
+  app.use('/api', generalRateLimiter);
+
   app.get('/', defaultRoute);
   app.use('/api/auth', authRoutes);
   app.use('/api/matches', matchesRoutes);
   app.use('/api/players', playersRoutes);
   app.use('/api/player-match-info', playerMatchInfoRoutes);
+  app.use('/api/metrics', metricsRoutes);
   app.use(notFoundRoute);
   app.use(errorHandlerRoute);
 

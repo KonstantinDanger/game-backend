@@ -2,15 +2,12 @@ import createHttpError from 'http-errors';
 
 import { IMatchDocument, MatchModel } from '@/db/models/match';
 import type { IPlayerDocument } from '@/db/models/player';
+import { makePlayerData } from '@/utils/makeData';
 
 export async function getMatchService(id: string) {
-  if (!id) {
-    throw createHttpError(400, 'ID is required');
-  }
-
   const match = (await MatchModel.findOne({ _id: id, removedAt: null })
-    .populate('winnerId')
-    .populate('loserId')) as
+    .populate('winnerId', '_id name')
+    .populate('loserId', '_id name')) as
     | (IMatchDocument & {
         winnerId: IPlayerDocument | null;
         loserId: IPlayerDocument | null;
@@ -25,7 +22,7 @@ export async function getMatchService(id: string) {
 
   return {
     ...rest,
-    winner: winnerId,
-    loser: loserId,
+    winner: winnerId && makePlayerData(winnerId),
+    loser: loserId && makePlayerData(loserId),
   };
 }

@@ -8,7 +8,9 @@ export async function listMatchesController(
   res: Response,
   _next: NextFunction,
 ) {
-  const { list, totalCount } = await getListMatchesService(req.query);
+  const { list, totalCount } = await getListMatchesService(
+    req.query as unknown as { page: number; perPage: number },
+  );
 
   res.json({
     data: {

@@ -6,14 +6,16 @@ import { makePlayerData } from '@/utils/makeData';
 export async function updateCurrentUserController(
   req: Request,
   res: Response,
-  _next: NextFunction,
+  next: NextFunction,
 ) {
-  const player = await updatePlayerService(
-    req.body,
-    req.params.id || req.body.user._id.toString(),
-  );
+  if (!req.user) {
+    return next();
+  }
 
-  res.json({
+  const userId = String(req.user._id);
+  const player = await updatePlayerService(req.body, userId);
+
+  return res.json({
     message: 'Player updated successfully',
     data: makePlayerData(player, true, true),
   });

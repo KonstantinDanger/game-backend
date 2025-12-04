@@ -1,11 +1,10 @@
 import { IPlayerDocument, PlayerModel } from '@/db/models/player';
 
 export async function listPlayersService(query: {
-  page?: string;
-  perPage?: string;
+  page: number;
+  perPage: number;
 }) {
-  const page = parseInt(query.page as string) || 1;
-  const perPage = parseInt(query.perPage as string) || 10;
+  const { page, perPage } = query;
   const skip = (page - 1) * perPage;
 
   const [list, totalCount]: [IPlayerDocument[], number] = await Promise.all([
