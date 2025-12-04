@@ -6,7 +6,7 @@ export interface IMatchDocument extends Document {
   matchTime: number;
   winnerId: Types.ObjectId;
   loserId: Types.ObjectId;
-
+  removedAt: Date;
   winner: IPlayer;
   loser: IPlayer;
 }
@@ -30,6 +30,10 @@ const matchSchema: Schema<IMatchDocument> = new Schema<IMatchDocument>(
     matchDate: {
       type: Date,
       required: true,
+    },
+    removedAt: {
+      type: Date,
+      required: false,
     },
   },
   {

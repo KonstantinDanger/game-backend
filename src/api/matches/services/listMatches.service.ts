@@ -2,7 +2,7 @@ import { MatchModel } from '@/db/models/match';
 import { PlayerModel } from '@/db/models/player';
 // import { match } from 'assert';
 
-export async function listMatchesService(query: {
+export async function getListMatchesService(query: {
   page?: string;
   perPage?: string;
 }) {

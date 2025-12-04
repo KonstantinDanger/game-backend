@@ -10,10 +10,10 @@ export async function getMatchService(id: string) {
 
   const match = (await MatchModel.findOne({ _id: id, removedAt: null })
     .populate('winnerId')
-    .populate('looserId')) as
+    .populate('loserId')) as
     | (IMatchDocument & {
         winnerId: IPlayerDocument | null;
-        looserId: IPlayerDocument | null;
+        loserId: IPlayerDocument | null;
       })
     | null;
 
@@ -21,11 +21,11 @@ export async function getMatchService(id: string) {
     throw createHttpError(404, 'Match not found');
   }
 
-  const { winnerId, looserId, ...rest } = match.toObject();
+  const { winnerId, loserId, ...rest } = match.toObject();
 
   return {
     ...rest,
     winner: winnerId,
-    looser: looserId,
+    loser: loserId,
   };
 }

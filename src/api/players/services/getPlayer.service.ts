@@ -17,11 +17,14 @@ export async function getPlayerService(id: string) {
     throw createHttpError(404, 'Player not found');
   }
 
-  // Get matches for this player (only non-removed matches)
   const matches = await MatchModel.find({
-    _id: { $in: player.playedMatchesIds || [] },
+    $or: [{ winnerId: id }, { loserId: id }],
     removedAt: null,
-  }).sort({ matchDate: -1 });
+  })
+    .sort({ matchDate: -1 })
+    .lean();
+
+  player.playedMatchesCount = matches.length;
 
   return { player, matches };
 }

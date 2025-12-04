@@ -7,18 +7,12 @@ export async function deleteMatchService(id: string) {
     throw createHttpError(400, 'ID is required');
   }
 
-  const match = (await MatchModel.findOne({
-    _id: id,
-    removedAt: null,
-  })) as IMatchDocument;
-
-  if (!match) {
-    throw createHttpError(404, 'Match not found');
-  }
-
-  match.removedAt = new Date();
-  await match.save();
+  const match = (await MatchModel.findOneAndUpdate(
+    { _id: id },
+    {
+      removedAt: null,
+    },
+  )) as IMatchDocument;
 
   return match;
 }
-
