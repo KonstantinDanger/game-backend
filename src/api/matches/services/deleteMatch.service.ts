@@ -8,9 +8,12 @@ export async function deleteMatchService(id: string) {
   }
 
   const match = (await MatchModel.findOneAndUpdate(
-    { _id: id },
     {
+      _id: id,
       removedAt: null,
+    },
+    {
+      removedAt: new Date(),
     },
   )) as IMatchDocument;
 

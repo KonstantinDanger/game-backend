@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 
 import { loginService } from '../services/login.service';
-import { setSessionCookies } from '../services/session.service';
 import { makePlayerData } from '@/utils/makeData';
 
 export const loginUserController = async (
@@ -11,13 +10,13 @@ export const loginUserController = async (
 ) => {
   const { session, player } = await loginService(req.body);
 
-  setSessionCookies(res, session);
-
   res.json({
     status: 200,
     message: 'Successfully logged in!',
     data: {
       accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
+      sessionId: session.id,
       player: makePlayerData(player, true),
     },
   });

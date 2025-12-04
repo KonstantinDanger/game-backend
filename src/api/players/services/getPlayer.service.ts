@@ -1,9 +1,10 @@
 import createHttpError from 'http-errors';
 
 import { IPlayerDocument, PlayerModel } from '@/db/models/player';
-import { MatchModel } from '@/db/models/match';
+import { IMatchDocument, MatchModel } from '@/db/models/match';
+import { makeMatchData, makePlayerData } from '@/utils/makeData';
 
-export async function getPlayerService(id: string) {
+export async function getPlayerService(id: string, isAdmin?: boolean) {
   if (!id) {
     throw createHttpError(400, 'ID is required');
   }
@@ -24,7 +25,10 @@ export async function getPlayerService(id: string) {
     .sort({ matchDate: -1 })
     .lean();
 
-  player.playedMatchesCount = matches.length;
-
-  return { player, matches };
+  return {
+    player: makePlayerData(player, false, isAdmin),
+    matches: matches.map((match) =>
+      makeMatchData(match as unknown as IMatchDocument),
+    ),
+  };
 }

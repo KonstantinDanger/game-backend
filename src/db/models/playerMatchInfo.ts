@@ -37,23 +37,23 @@ const playerMatchInfoSchema: Schema<IPlayerMatchInfoDocument> =
       },
       dealtDamage: {
         type: Number,
-        required: true,
+        required: false,
       },
       reachedLevel: {
         type: Number,
-        required: true,
+        required: false,
       },
       totalXpReceived: {
         type: Number,
-        required: true,
+        required: false,
       },
       deathsCount: {
         type: Number,
-        required: true,
+        required: false,
       },
       currencyReceived: {
         type: Number,
-        required: true,
+        required: false,
       },
     },
     {

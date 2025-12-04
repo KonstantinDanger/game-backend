@@ -6,14 +6,11 @@ export async function logoutController(
   res: Response,
   _next: NextFunction,
 ) {
-  const sessionId = req.cookies.sessionId;
+  const sessionId = req.headers['x-session-id'] as string;
 
   if (sessionId) {
     await logoutService(sessionId);
   }
-
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
 
   res.status(204).json({
     message: 'Logout successful',

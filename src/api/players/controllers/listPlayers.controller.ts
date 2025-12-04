@@ -12,7 +12,7 @@ export async function listPlayersController(
   const isAdmin = req.body?.user?.isAdmin === true;
   res.json({
     data: {
-      list: list.map((player) => makePlayerData(player, isAdmin)),
+      list: list.map((player) => makePlayerData(player, false, isAdmin)),
       totalCount,
     },
   });

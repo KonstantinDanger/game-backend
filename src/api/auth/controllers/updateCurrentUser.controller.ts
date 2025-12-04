@@ -3,7 +3,7 @@ import type { NextFunction, Response, Request } from 'express';
 import { updatePlayerService } from '../services/updatePlayer.service';
 import { makePlayerData } from '@/utils/makeData';
 
-export async function updatePlayerController(
+export async function updateCurrentUserController(
   req: Request,
   res: Response,
   _next: NextFunction,
@@ -15,6 +15,6 @@ export async function updatePlayerController(
 
   res.json({
     message: 'Player updated successfully',
-    data: makePlayerData(player, true),
+    data: makePlayerData(player, true, true),
   });
 }
