@@ -53,7 +53,7 @@ export async function initUser(
 ) {
   try {
     const authHeader = req.headers.authorization;
-    const [bearer, token] = authHeader?.split(' ') || [];
+    const token = authHeader?.split(' ')[1] || [];
 
     const session = (await SessionModel.findOne({
       accessToken: token,
@@ -69,6 +69,7 @@ export async function initUser(
 
     next();
   } catch (error) {
+    console.error(error);
     next();
   }
 }

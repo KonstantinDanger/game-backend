@@ -3,6 +3,7 @@ import {
   PlayerMatchInfoModel,
 } from '@/db/models/playerMatchInfo';
 import createHttpError from 'http-errors';
+import { Types } from 'mongoose';
 
 export async function updatePlayerMatchInfoService(
   body: {
@@ -27,19 +28,21 @@ export async function updatePlayerMatchInfoService(
   }
 
   if (body.playerId !== undefined) {
-    playerMatchInfo.playerId = body.playerId as any;
+    playerMatchInfo.playerId = new Types.ObjectId(body.playerId);
   }
 
   if (body.matchId !== undefined) {
-    playerMatchInfo.matchId = body.matchId as any;
+    playerMatchInfo.matchId = new Types.ObjectId(body.matchId);
   }
 
   if (body.playerClassId !== undefined) {
-    playerMatchInfo.playerClassId = body.playerClassId as any;
+    playerMatchInfo.playerClassId = new Types.ObjectId(body.playerClassId);
   }
 
   if (body.slainBossesIds !== undefined) {
-    playerMatchInfo.slainBossesIds = body.slainBossesIds as any;
+    playerMatchInfo.slainBossesIds = body.slainBossesIds.map(
+      (id) => new Types.ObjectId(id),
+    );
   }
 
   if (body.dealtDamage !== undefined) {
@@ -66,4 +69,3 @@ export async function updatePlayerMatchInfoService(
 
   return playerMatchInfo;
 }
-

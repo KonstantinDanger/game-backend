@@ -4,21 +4,17 @@ import createHttpError from 'http-errors';
 export async function updateMatchService(
   body: {
     name?: string;
-    matchTime?: Date;
+    matchTime?: number;
     matchDate?: Date;
   },
   id: string,
 ) {
-  const { name, matchTime, matchDate } = body;
+  const { matchTime, matchDate } = body;
 
   const match = (await MatchModel.findById(id)) as IMatchDocument;
 
   if (!match) {
     throw createHttpError(404, 'Match not found');
-  }
-
-  if (name !== undefined) {
-    match.name = name;
   }
 
   if (matchTime !== undefined) {
