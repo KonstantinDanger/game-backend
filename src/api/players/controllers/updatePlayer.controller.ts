@@ -12,6 +12,6 @@ export async function updatePlayerController(
   const isAdmin = req.body?.user?.isAdmin === true;
 
   res.json({
-    data: makePlayerData(player, isAdmin),
+    data: makePlayerData(player, false, isAdmin),
   });
 }
